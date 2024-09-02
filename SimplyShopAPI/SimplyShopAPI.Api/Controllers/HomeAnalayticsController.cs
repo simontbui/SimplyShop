@@ -15,18 +15,19 @@ namespace SimplyShopAPI.Api.Controllers
         }
 
         [HttpGet]
+        [Route("average-spent")]
         public IActionResult GetAvgSpentPerVisit()
         {
             var data = _uow.HomeAnalytics.GetAvgSpentPerVisit();
             return Ok(data);
         }
 
-        [HttpGet]
-        [Route("get-stores")]
-        public IActionResult GetAllStores()
-        {
-            var data = _uow.HomeAnalytics.GetStores();
-            return Ok(data);
-        }
+        //[HttpGet]
+        //[Route("get-stores")]
+        //public IActionResult GetAllStores()
+        //{
+        //    var data = _uow.HomeAnalytics.GetStores();
+        //    return Ok(data);
+        //}
     }
 }

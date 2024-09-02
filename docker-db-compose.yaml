@@ -1,0 +1,49 @@
+services:
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=SimplyShop
+    volumes:
+      - "./Database/scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql"
+      - "pgdata:/var/lib/postgresql/data:rw"
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_LISTEN_PORT=8080
+    ports:
+      - "8080:8080"
+    # Connect pgadmin to psql via 172.21.0.3 not localhost
+    # Check IP address via `docker inspect simplyshop-pgdatabase-1`
+
+  simply-shop-ui:
+    build:
+      context: ./simply-shop-ui
+      dockerfile: Dockerfile
+    
+    container_name: simply-shop-ui
+    ports:
+      - "3000:80"
+    depends_on:
+      - simply-shop-api
+
+  simply-shop-api:
+    environment:
+      - ASPNETCORE_HTTP_PORTS=7073
+      - ASPNETCORE_ENVIRONMENT=Development
+    build: 
+      context: ./SimplyShopAPI
+      dockerfile: Dockerfile
+    container_name: SimplyShopAPI
+    ports:
+      - "7073:80"
+    depends_on:
+      - pgdatabase
+  
+volumes:
+  pgdata:
