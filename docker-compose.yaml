@@ -24,13 +24,19 @@ services:
   simply-shop-ui:
     build:
       context: ./simply-shop-ui
-      dockerfile: Dockerfile
-    
+      dockerfile: ../Dockerfile.ui
     container_name: simply-shop-ui
+    working_dir: /app
+    command: ["npm", "start"]
+    volumes:
+      - ./simply-shop-ui:/app
+      - /app/node_modules               # ← Prevent host from overwriting node_modules
     ports:
-      - "3000:80"
+      - "3000:3000"
     depends_on:
       - simply-shop-api
+    environment:
+      - WATCHPACK_POLLING=true       # ← Required for file watching on Docker Desktop (Windows/Mac)
 
   simply-shop-api:
     environment:
