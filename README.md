@@ -16,7 +16,7 @@ To setup PgAdmin via `http://localhost:8080/`:
     - General Tab
         - Name: SimplyShop
     - Connection Tab
-        - Host name/address: <instructions below>
+        - Host name/address: \<instructions below>
         - Port: 5432
         - Maintenance database: postgres
         - Username: root
