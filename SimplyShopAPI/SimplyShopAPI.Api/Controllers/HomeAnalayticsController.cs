@@ -22,6 +22,13 @@ namespace SimplyShopAPI.Api.Controllers
             return Ok(data);
         }
 
+        [HttpGet]
+        [Route("most-popular-products")]
+        public IActionResult GetMostPopularProducts(string? city, int rows = 10)
+        {
+            var data = _uow.HomeAnalytics.GetMostPopularProducts(city, rows);
+            return Ok(data);
+        }
         //[HttpGet]
         //[Route("get-stores")]
         //public IActionResult GetAllStores()

@@ -12,7 +12,7 @@ namespace SimplyShopAPI.Domain.Interfaces
         IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false);
         IEnumerable<Store> GetMostPopularStore();
 
-        IEnumerable<Product> GetMostPopularProducts();
+        IEnumerable<Product> GetMostPopularProducts(string? city, int rows = 10);
     
     }
 }

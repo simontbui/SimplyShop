@@ -31,14 +31,43 @@ namespace SimplyShopAPI.Infrastructure.Implementation
                 {
                     TransactionDate = g.Key,
                     AvgSpent = g.Average(x => x.Cost)
-                }).OrderBy(x => x.TransactionDate).ToList();
+                })
+                .OrderBy(x => x.TransactionDate).ToList();
 
             return avgSpentData;
         }
 
-        public IEnumerable<Product> GetMostPopularProducts()
+        public IEnumerable<Product> GetMostPopularProducts(string? city, int rows = 10)
         {
-            throw new NotImplementedException();
+            var tx = _context.Transactions
+                             .AsQueryable();
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                tx = tx.Where(t => t.Store.CityAddress == city);
+            }
+
+            var top = tx
+                .GroupBy(t => new {
+                    t.Product.ProductId,
+                    t.Product.ProductName,
+                })
+                .Select(g => new {
+                    g.Key.ProductId,
+                    g.Key.ProductName,
+                    AvgPrice = Math.Round(g.Average(x => x.Cost), 2),
+                    Count = g.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .Take(rows)
+                .ToList();
+
+            return top.Select(x => new Product
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+                AvgPrice = x.AvgPrice
+            });
         }
 
         public IEnumerable<Store> GetMostPopularStore()

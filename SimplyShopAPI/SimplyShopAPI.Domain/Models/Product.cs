@@ -10,9 +10,8 @@ namespace SimplyShopAPI.Domain.Models
     public class Product
     {
         public int ProductId { get; set; }
-        public decimal? Unit { get; set; }
-        public string? UnitType { get; set; }
+        public int? UnitTypeId { get; set; }
         public string ProductName { get; set; } = null!;
-        public decimal AvgPrice { get; set; }
+        public decimal? AvgPrice { get; set; }
     }
 }
