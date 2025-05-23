@@ -18,14 +18,15 @@ namespace SimplyShopAPI.Infrastructure.Implementation
             _context = context;
         }
 
-        public IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30)
+        public IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false)
         {
-            //need to add logic to filter within range of some address
-
             var avgSpentData = (
                 from t in _context.Transactions
                 join s in _context.Stores on t.StoreId equals s.StoreId
-                group t by t.TransactionDate into g
+                let groupKey = groupByMonth
+                                ? new DateOnly(t.TransactionDate.Year, t.TransactionDate.Month, 1)
+                                : t.TransactionDate
+                group t by groupKey into g
                 select new AvgSpentPerVisit
                 {
                     TransactionDate = g.Key,

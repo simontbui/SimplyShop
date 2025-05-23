@@ -9,17 +9,21 @@ const chartTitles = {
 }
 
 export const AvgSpentChart = ({ chartType }) => {
+    // sample data
+    // const [avgVisitCosts, setAvgVisitCosts] = useState([
+    //     { transactionDate: new Date(2024, 6, 1), avgSpent: 535.12 },
+    //     { transactionDate: new Date(2024, 6, 8), avgSpent: 821.12 },
+    //     { transactionDate: new Date(2024, 6, 15), avgSpent: 1332.12 },
+    //     { transactionDate: new Date(2024, 6, 22), avgSpent: 3121.12 },
+    //     { transactionDate: new Date(2024, 6, 29), avgSpent: 432.12 },
+    //     { transactionDate: new Date(2024, 7, 6), avgSpent: 1173.12 },
+    //     { transactionDate: new Date(2024, 7, 13), avgSpent: 63.12 },
+    //     { transactionDate: new Date(2024, 7, 20), avgSpent: 126.12 },
+    //     { transactionDate: new Date(2024, 7, 27), avgSpent: 236.12 },
+    //     { transactionDate: new Date(2024, 8, 3), avgSpent: 312.72 },
+    // ])
+
     const [avgVisitCosts, setAvgVisitCosts] = useState([
-        { transactionDate: new Date(2024, 6, 1), avgSpent: 535.12 },
-        { transactionDate: new Date(2024, 6, 8), avgSpent: 821.12 },
-        { transactionDate: new Date(2024, 6, 15), avgSpent: 1332.12 },
-        { transactionDate: new Date(2024, 6, 22), avgSpent: 3121.12 },
-        { transactionDate: new Date(2024, 6, 29), avgSpent: 432.12 },
-        { transactionDate: new Date(2024, 7, 6), avgSpent: 1173.12 },
-        { transactionDate: new Date(2024, 7, 13), avgSpent: 63.12 },
-        { transactionDate: new Date(2024, 7, 20), avgSpent: 126.12 },
-        { transactionDate: new Date(2024, 7, 27), avgSpent: 236.12 },
-        { transactionDate: new Date(2024, 8, 3), avgSpent: 312.72 },
     ])
 
     useEffect(() => {
@@ -35,12 +39,6 @@ export const AvgSpentChart = ({ chartType }) => {
             })
     }, [])
     
-    // useEffect(() => {
-    //     avgVisitCosts.forEach((x) => (
-    //         console.log(x.transactionDate.getMonth().toString())
-    //     ))
-    // }, [avgVisitCosts])
-
     return (
         <div>
             <Typography variant="h6" color="primary">

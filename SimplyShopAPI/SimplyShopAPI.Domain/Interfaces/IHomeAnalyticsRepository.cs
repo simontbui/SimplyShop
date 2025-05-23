@@ -9,7 +9,7 @@ namespace SimplyShopAPI.Domain.Interfaces
 {
     public interface IHomeAnalyticsRepository
     {
-        IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30);
+        IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false);
         IEnumerable<Store> GetMostPopularStore();
 
         IEnumerable<Product> GetMostPopularProducts();
