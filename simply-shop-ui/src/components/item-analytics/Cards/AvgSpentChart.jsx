@@ -1,7 +1,7 @@
 import { LineChart } from "@mui/x-charts"
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAvgSpentPerVisit } from "../../../api/SimplyShopApi/HomeAnalytics";
+import { getAvgSpentPerVisit } from "../../../api/SimplyShopApi/Pricing";
 
 const chartTitles = {
     home: "Average Dollars Spent Per Visit Within a 25 mi Radius (Last 30D)",

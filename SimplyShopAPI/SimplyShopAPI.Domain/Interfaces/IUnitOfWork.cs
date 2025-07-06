@@ -8,7 +8,8 @@ namespace SimplyShopAPI.Domain.Interfaces
 {
     public interface IUnitOfWork
     {
-        public IHomeAnalyticsRepository HomeAnalytics { get; }
+        public ITransactionRepository TransactionRepository { get; }
+        public IProductRepository ProductRepository { get; }
         public void Save();
         public void Dispose();
     }

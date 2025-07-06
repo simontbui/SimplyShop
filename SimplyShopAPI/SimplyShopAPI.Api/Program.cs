@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SimplyShopAPI.Application.Helpers;
+using SimplyShopAPI.Application.Services;
 using SimplyShopAPI.Domain.Interfaces;
 using SimplyShopAPI.Infrastructure.Context;
 using SimplyShopAPI.Infrastructure.Implementation;
@@ -22,6 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SimplyShopContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+builder.Services.AddScoped<IPricingService, PricingService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Temporary for local dev; need to reconfigure later
