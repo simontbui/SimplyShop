@@ -21,7 +21,7 @@ namespace SimplyShopAPI.Infrastructure.Repositories
 
         public IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false)
         {
-            var avgSpentData = (
+            List<AvgSpentPerVisit> avgSpentData = (
                 from t in _context.Transactions
                 join s in _context.Stores on t.StoreId equals s.StoreId
                 let groupKey = groupByMonth

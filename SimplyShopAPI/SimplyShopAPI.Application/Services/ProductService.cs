@@ -16,10 +16,35 @@ namespace SimplyShopAPI.Application.Services
         {
             _uow = uow;
         }
-            
+
         public IEnumerable<Product> GetMostPopularProducts(string? city, int rows = 10)
         {
             var data = _uow.ProductRepository.GetMostPopularProducts(city, rows);
+            return data;
+        }
+
+        public IEnumerable<BrandProductCount> GetMostPopularBrands(string? productName, int rows)
+        {
+            var data = _uow.ProductRepository.GetMostPopularBrands(productName, rows);
+            return data;
+        }
+
+        public IEnumerable<BrandProductPrice> GetCheapestBrands(string? productName, int rows = 10)
+        {
+            var data = _uow.ProductRepository.GetCheapestBrands(productName, rows);
+            return data;
+        }
+
+
+        public IEnumerable<StoreProductCount> GetMostPopularStores(string? productName, int rows = 10)
+        {
+            var data = _uow.ProductRepository.GetMostPopularStores(productName, rows);
+            return data;
+        }
+
+        public IEnumerable<StoreProductPrice> GetCheapestStores(string? productName, int rows = 10)
+        {
+            var data = _uow.ProductRepository.GetCheapestStores(productName, rows);
             return data;
         }
     }
