@@ -9,7 +9,6 @@ namespace SimplyShopAPI.Domain.Models
 {
     public class StoreProductPrice
     {
-        public int StoreId { get; set; }
         public string StoreName { get; set; } = null!;
         public string StreetAddress { get; set; } = null!;
         public string CityAddress { get; set; } = null!;

@@ -34,7 +34,6 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                     t.Product.ProductName,
                 })
                 .Select(g => new {
-                    g.Key.ProductId,
                     g.Key.ProductName,
                     AvgPrice = Math.Round(g.Average(x => x.Cost), 2),
                     Count = g.Count()
@@ -45,7 +44,6 @@ namespace SimplyShopAPI.Infrastructure.Repositories
 
             return top.Select(x => new Product
             {
-                ProductId = x.ProductId,
                 ProductName = x.ProductName,
                 AvgPrice = x.AvgPrice
             });
@@ -60,7 +58,6 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                                  group t by new { b.BrandId, b.BrandName } into g
                                  select new BrandProductCount
                                  {
-                                     BrandId = g.Key.BrandId,
                                      BrandName = g.Key.BrandName,
                                      Count = g.Count()
                                  })
@@ -80,7 +77,6 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                                              group t by new { b.BrandId, b.BrandName } into g
                                              select new BrandProductPrice
                                              {
-                                                 BrandId = g.Key.BrandId,
                                                  BrandName = g.Key.BrandName,
                                                  AvgPrice = Math.Round(g.Average(x => x.Cost), 2)
                                              })
@@ -108,7 +104,6 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                                              } into g
                                              select new StoreProductCount
                                              {
-                                                 StoreId = g.Key.StoreId,
                                                  StoreName = g.Key.StoreName,
                                                  StreetAddress = g.Key.StreetAddress,
                                                  CityAddress = g.Key.CityAddress,
@@ -140,7 +135,6 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                                              } into g
                                              select new StoreProductPrice
                                              {
-                                                 StoreId = g.Key.StoreId,
                                                  StoreName = g.Key.StoreName,
                                                  StreetAddress = g.Key.StreetAddress,
                                                  CityAddress = g.Key.CityAddress,

@@ -8,7 +8,6 @@ namespace SimplyShopAPI.Domain.Models
 {
     public class BrandProductPrice
     {
-        public int BrandId { get; set; }
         public string? BrandName { get; set; }
         public decimal AvgPrice { get; set; }
     }
