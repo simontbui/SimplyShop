@@ -34,18 +34,5 @@ namespace SimplyShopAPI.Application.Services
             var data = _uow.ProductRepository.GetCheapestBrands(productName, rows);
             return data;
         }
-
-
-        public IEnumerable<StoreProductCount> GetMostPopularStores(string? productName, int rows = 10)
-        {
-            var data = _uow.ProductRepository.GetMostPopularStores(productName, rows);
-            return data;
-        }
-
-        public IEnumerable<StoreProductPrice> GetCheapestStores(string? productName, int rows = 10)
-        {
-            var data = _uow.ProductRepository.GetCheapestStores(productName, rows);
-            return data;
-        }
     }
 }

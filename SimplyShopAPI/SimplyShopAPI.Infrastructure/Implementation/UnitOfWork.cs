@@ -13,10 +13,12 @@ namespace SimplyShopAPI.Infrastructure.Implementation
             _context = context;
             TransactionRepository = new TransactionRepository(_context);
             ProductRepository = new ProductRepository(_context);
+            StoreRepository = new StoreRepository(_context);
         }
 
         public ITransactionRepository TransactionRepository { get; private set; }
         public IProductRepository ProductRepository { get; private set; }
+        public IStoreRepository StoreRepository { get; private set; }
 
         public void Save()
         {

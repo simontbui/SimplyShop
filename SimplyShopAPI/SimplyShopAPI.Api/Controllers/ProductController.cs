@@ -37,21 +37,5 @@ namespace SimplyShopAPI.Api.Controllers
             var data = _productService.GetCheapestBrands(productName, rows);
             return Ok(data);
         }
-
-        [HttpGet]
-        [Route("stores/most-popular")]
-        public IActionResult GetMostPopularStores(string? productName, int rows = 10)
-        {
-            var data = _productService.GetMostPopularStores(productName, rows);
-            return Ok(data);
-        }        
-        
-        [HttpGet]
-        [Route("stores/cheapest")]
-        public IActionResult GetCheapestStores(string? productName, int rows = 10)
-        {
-            var data = _productService.GetCheapestStores(productName, rows);
-            return Ok(data);
-        }
     }
 }

@@ -10,6 +10,7 @@ namespace SimplyShopAPI.Domain.Interfaces
     {
         public ITransactionRepository TransactionRepository { get; }
         public IProductRepository ProductRepository { get; }
+        public IStoreRepository StoreRepository { get; }
         public void Save();
         public void Dispose();
     }

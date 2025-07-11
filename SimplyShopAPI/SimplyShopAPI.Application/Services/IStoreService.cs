@@ -1,14 +1,13 @@
 ﻿using SimplyShopAPI.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyShopAPI.Domain.Interfaces
+namespace SimplyShopAPI.Application.Services
 {
-    public interface IStoreRepository
+    public interface IStoreService
     {
         IEnumerable<StoreSummary> GetStoreSummaries(string? city, string? productName, int rows = 10);
     }
