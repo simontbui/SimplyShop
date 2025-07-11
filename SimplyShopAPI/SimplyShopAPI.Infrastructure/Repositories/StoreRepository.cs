@@ -23,8 +23,8 @@ namespace SimplyShopAPI.Infrastructure.Repositories
             List<StoreSummary> stores = (from t in _context.Transactions
                                          join p in _context.Products on t.ProductId equals p.ProductId
                                          join s in _context.Stores on t.StoreId equals s.StoreId
-                                         where city == null || s.CityAddress.ToLower() == city
-                                         where productName == null | p.ProductName.ToLower() == productName
+                                         where city == null || s.CityAddress.ToLower() == city.ToLower()
+                                         where productName == null || p.ProductName.ToLower() == productName.ToLower()
                                          group t by new
                                          {
                                              s.StoreId,

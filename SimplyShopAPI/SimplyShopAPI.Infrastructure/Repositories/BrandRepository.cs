@@ -24,8 +24,8 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                                         join p in _context.Products on t.ProductId equals p.ProductId
                                         join s in _context.Stores on t.StoreId equals s.StoreId
                                         join b in _context.Brands on p.BrandId equals b.BrandId
-                                        where city == null || s.CityAddress.ToLower() == city
-                                        where productName == null || p.ProductName.ToLower() == productName
+                                        where city == null || s.CityAddress.ToLower() == city.ToLower()
+                                        where productName == null || p.ProductName.ToLower() == productName.ToLower()
                                         group t by b.BrandName into g
                                         select new BrandSummary
                                         {

@@ -23,7 +23,7 @@ namespace SimplyShopAPI.Infrastructure.Repositories
             List<ProductSummary> productSummaries = (from t in _context.Transactions
                                                     join p in _context.Products on t.ProductId equals p.ProductId
                                                     join s in _context.Stores on t.StoreId equals s.StoreId
-                                                    where city == null || s.CityAddress.ToLower() == city
+                                                    where city == null || s.CityAddress.ToLower() == city.ToLower()
                                                     group t by p.ProductName into g
                                                     select new ProductSummary
                                                     {
