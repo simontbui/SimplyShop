@@ -9,6 +9,6 @@ namespace SimplyShopAPI.Domain.Interfaces
 {
     public interface ITransactionRepository
     {
-        IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false);
+        public Task<IEnumerable<AvgSpentPerVisit>> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false);
     }
 }

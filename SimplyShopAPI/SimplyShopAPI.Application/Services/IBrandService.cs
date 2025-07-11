@@ -4,6 +4,6 @@ namespace SimplyShopAPI.Application.Services
 {
     public interface IBrandService
     {
-        IEnumerable<BrandSummary> GetBrandSummaries(string? city, string? productName, int rows = 10);
+        public Task<IEnumerable<BrandSummary>> GetBrandSummaries(string? city, string? productName, int rows = 10);
     }
 }

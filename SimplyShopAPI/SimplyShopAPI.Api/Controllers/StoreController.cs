@@ -16,9 +16,9 @@ namespace SimplyShopAPI.Api.Controllers
 
         [HttpGet]
         [Route("summaries")]
-        public IActionResult GetMostPopularProducts(string? city, string? productName, int rows = 10)
+        public async Task<IActionResult> GetMostPopularProducts(string? city, string? productName, int rows = 10)
         {
-            var data = _storeService.GetStoreSummaries(city, productName, rows);
+            var data = await _storeService.GetStoreSummaries(city, productName, rows);
             return Ok(data);
         }
     }

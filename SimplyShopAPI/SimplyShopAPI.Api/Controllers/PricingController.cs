@@ -16,9 +16,9 @@ namespace SimplyShopAPI.Api.Controllers
 
         [HttpGet]
         [Route("average-visit")]
-        public IActionResult GetAvgSpentPerVisit()
+        public async Task<IActionResult> GetAvgSpentPerVisit()
         {
-            var data = _pricingService.GetAvgSpentPerVisit();
+            var data = await _pricingService.GetAvgSpentPerVisit();
             return Ok(data);
         }
     }

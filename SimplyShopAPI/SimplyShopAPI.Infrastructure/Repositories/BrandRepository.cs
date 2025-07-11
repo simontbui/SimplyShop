@@ -1,11 +1,7 @@
 ﻿using SimplyShopAPI.Domain.Interfaces;
 using SimplyShopAPI.Infrastructure.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimplyShopAPI.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimplyShopAPI.Infrastructure.Repositories
 {
@@ -18,9 +14,9 @@ namespace SimplyShopAPI.Infrastructure.Repositories
             _context = context;
         }
 
-        public IEnumerable<BrandSummary> GetBrandSummaries(string? city, string? productName, int rows = 10)
+        public async Task<IEnumerable<BrandSummary>> GetBrandSummaries(string? city, string? productName, int rows = 10)
         {
-            List<BrandSummary> brandSummaries = (from t in _context.Transactions
+            var brandSummaries = await (from t in _context.Transactions
                                         join p in _context.Products on t.ProductId equals p.ProductId
                                         join s in _context.Stores on t.StoreId equals s.StoreId
                                         join b in _context.Brands on p.BrandId equals b.BrandId
@@ -35,9 +31,9 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                                         })
                                  .OrderByDescending(x => x.AvgTransactionAmt)
                                  .Take(rows)
-                                 .ToList();
+                                 .ToListAsync();
 
-            return brandSummaries;
+            return brandSummaries!;
         }
     }
 }

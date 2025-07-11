@@ -17,9 +17,9 @@ namespace SimplyShopAPI.Application.Services
             _uow = uow;
         }
             
-        public IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false)
+        public async Task<IEnumerable<AvgSpentPerVisit>> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false)
         {
-            var data = _uow.TransactionRepository.GetAvgSpentPerVisit();
+            var data = await _uow.TransactionRepository.GetAvgSpentPerVisit();
             return data;
         }
     }

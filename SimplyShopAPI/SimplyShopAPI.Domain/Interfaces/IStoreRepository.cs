@@ -10,6 +10,6 @@ namespace SimplyShopAPI.Domain.Interfaces
 {
     public interface IStoreRepository
     {
-        IEnumerable<StoreSummary> GetStoreSummaries(string? city, string? productName, int rows = 10);
+        public Task<IEnumerable<StoreSummary>> GetStoreSummaries(string? city, string? productName, int rows = 10);
     }
 }

@@ -17,9 +17,9 @@ namespace SimplyShopAPI.Application.Services
             _uow = uow;
         }
 
-        public IEnumerable<ProductSummary> GetProductSummaries(string? city, int rows = 10)
+        public async Task<IEnumerable<ProductSummary>> GetProductSummaries(string? city, int rows = 10)
         {
-            var data = _uow.ProductRepository.GetProductSummaries(city, rows);
+            var data = await _uow.ProductRepository.GetProductSummaries(city, rows);
             return data;
         }
     }

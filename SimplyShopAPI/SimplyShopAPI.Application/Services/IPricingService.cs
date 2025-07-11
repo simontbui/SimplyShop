@@ -4,6 +4,6 @@ namespace SimplyShopAPI.Application.Services
 {
     public interface IPricingService
     {
-        IEnumerable<AvgSpentPerVisit> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false);
+        public Task<IEnumerable<AvgSpentPerVisit>> GetAvgSpentPerVisit(int lookBackDays = 30, bool groupByMonth = false);
     }
 }

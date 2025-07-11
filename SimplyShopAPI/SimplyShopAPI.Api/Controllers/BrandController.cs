@@ -16,9 +16,9 @@ namespace SimplyShopAPI.Api.Controllers
 
         [HttpGet]
         [Route("summaries")]
-        public IActionResult GetBrandSummaries(string? city, string? productName, int rows = 10)
+        public async Task<IActionResult> GetBrandSummaries(string? city, string? productName, int rows = 10)
         {
-            var data = _brandService.GetBrandSummaries(city, productName, rows);
+            var data = await _brandService.GetBrandSummaries(city, productName, rows);
             return Ok(data);
         }
     }
