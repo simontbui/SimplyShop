@@ -4,8 +4,6 @@ namespace SimplyShopAPI.Application.Services
 {
     public interface IProductService
     {
-        IEnumerable<Product> GetMostPopularProducts(string? city, int rows = 10);
-        IEnumerable<BrandProductCount> GetMostPopularBrands(string? productName, int rows = 10);
-        IEnumerable<BrandProductPrice> GetCheapestBrands(string? productName, int rows = 10);
+        IEnumerable<ProductSummary> GetProductSummaries(string? city, int rows = 10);
     }
 }

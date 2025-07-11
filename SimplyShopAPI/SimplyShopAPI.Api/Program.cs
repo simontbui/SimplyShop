@@ -5,6 +5,7 @@ using SimplyShopAPI.Application.Services;
 using SimplyShopAPI.Domain.Interfaces;
 using SimplyShopAPI.Infrastructure.Context;
 using SimplyShopAPI.Infrastructure.Implementation;
+using SimplyShopAPI.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyCorsPolicy = "_MyCorsPolicy";
@@ -26,6 +27,7 @@ builder.Services.AddDbContext<SimplyShopContext>(options => options.UseNpgsql(bu
 builder.Services.AddScoped<IPricingService, PricingService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Temporary for local dev; need to reconfigure later

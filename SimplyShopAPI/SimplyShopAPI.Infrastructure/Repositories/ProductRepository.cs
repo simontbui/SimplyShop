@@ -18,73 +18,24 @@ namespace SimplyShopAPI.Infrastructure.Repositories
             _context = context;
         }
 
-        public IEnumerable<Product> GetMostPopularProducts(string? city, int rows = 10)
+        public IEnumerable<ProductSummary> GetProductSummaries(string? city, int rows = 10)
         {
-            var tx = _context.Transactions
-                             .AsQueryable();
+            List<ProductSummary> productSummaries = (from t in _context.Transactions
+                                                    join p in _context.Products on t.ProductId equals p.ProductId
+                                                    join s in _context.Stores on t.StoreId equals s.StoreId
+                                                    where city == null || s.CityAddress.ToLower() == city
+                                                    group t by p.ProductName into g
+                                                    select new ProductSummary
+                                                    {
+                                                        ProductName = g.Key,
+                                                        TransactionCount = g.Count(),
+                                                        AvgTransactionAmt = Math.Round(g.Average(x => x.Cost), 2)
+                                                    })
+                                                    .OrderByDescending(x => x.TransactionCount)
+                                                    .Take(rows)
+                                                    .ToList();
 
-            if (!string.IsNullOrEmpty(city))
-            {
-                tx = tx.Where(t => t.Store.CityAddress.ToLower() == city);
-            }
-
-            var top = tx
-                .GroupBy(t => new {
-                    t.Product.ProductId,
-                    t.Product.ProductName,
-                })
-                .Select(g => new {
-                    g.Key.ProductName,
-                    AvgPrice = Math.Round(g.Average(x => x.Cost), 2),
-                    Count = g.Count()
-                })
-                .OrderByDescending(x => x.Count)
-                .Take(rows)
-                .ToList();
-
-            return top.Select(x => new Product
-            {
-                ProductName = x.ProductName,
-                AvgPrice = x.AvgPrice
-            });
-        }
-
-        public IEnumerable<BrandProductCount> GetMostPopularBrands(string? productName, int rows = 10)
-        {
-            List<BrandProductCount> brands = (from t in _context.Transactions
-                                 join p in _context.Products on t.ProductId equals p.ProductId
-                                 join b in _context.Brands on p.BrandId equals b.BrandId
-                                 where p.ProductName.ToLower() == productName
-                                 group t by new { b.BrandId, b.BrandName } into g
-                                 select new BrandProductCount
-                                 {
-                                     BrandName = g.Key.BrandName,
-                                     Count = g.Count()
-                                 })
-                                 .OrderByDescending(x => x.Count)
-                                 .Take(rows)
-                                 .ToList();
-
-            return brands;
-        }
-
-        public IEnumerable<BrandProductPrice> GetCheapestBrands(string? productName, int rows = 10)
-        {
-            List<BrandProductPrice> brands = (from t in _context.Transactions
-                                             join p in _context.Products on t.ProductId equals p.ProductId
-                                             join b in _context.Brands on p.BrandId equals b.BrandId
-                                             where p.ProductName.ToLower() == productName
-                                             group t by new { b.BrandId, b.BrandName } into g
-                                             select new BrandProductPrice
-                                             {
-                                                 BrandName = g.Key.BrandName,
-                                                 AvgPrice = Math.Round(g.Average(x => x.Cost), 2)
-                                             })
-                                             .OrderByDescending(x => x.AvgPrice)
-                                             .Take(rows)
-                                             .ToList();
-
-            return brands;
+            return productSummaries;
         }
     }
 }

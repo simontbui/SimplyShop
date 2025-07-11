@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace SimplyShopAPI.Application.Services
 {
-    public class ProductService : IProductService
+    public class BrandService : IBrandService
     {
         private readonly IUnitOfWork _uow;
 
-        public ProductService(IUnitOfWork uow)
+        public BrandService(IUnitOfWork uow)
         {
             _uow = uow;
         }
 
-        public IEnumerable<ProductSummary> GetProductSummaries(string? city, int rows = 10)
+        public IEnumerable<BrandSummary> GetBrandSummaries(string? city, string? productName, int rows = 10)
         {
-            var data = _uow.ProductRepository.GetProductSummaries(city, rows);
+            var data = _uow.BrandRepository.GetBrandSummaries(city, productName, rows);
             return data;
         }
     }

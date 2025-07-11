@@ -15,26 +15,10 @@ namespace SimplyShopAPI.Api.Controllers
         }
 
         [HttpGet]
-        [Route("most-popular")]
-        public IActionResult GetMostPopularProducts(string? city, int rows = 10)
+        [Route("summaries")]
+        public IActionResult GetProductSummaries(string? city, int rows = 10)
         {
-            var data = _productService.GetMostPopularProducts(city, rows);
-            return Ok(data);
-        }
-
-        [HttpGet]
-        [Route("brands/most-popular")]
-        public IActionResult GetMostPopularBrands(string? productName, int rows = 10)
-        {
-            var data = _productService.GetMostPopularBrands(productName, rows);
-            return Ok(data);
-        }        
-        
-        [HttpGet]
-        [Route("brands/cheapest")]
-        public IActionResult GetCheapestBrands(string? productName, int rows = 10)
-        {
-            var data = _productService.GetCheapestBrands(productName, rows);
+            var data = _productService.GetProductSummaries(city, rows);
             return Ok(data);
         }
     }
