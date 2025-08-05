@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using SimplyShopAPI.Api.ExceptionHandling;
 using SimplyShopAPI.Application.Helpers;
 using SimplyShopAPI.Application.Services;
 using SimplyShopAPI.Domain.Interfaces;
@@ -30,6 +31,9 @@ builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 //Temporary for local dev; need to reconfigure later
 builder.Services.AddCors(options =>
 {
@@ -51,6 +55,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
