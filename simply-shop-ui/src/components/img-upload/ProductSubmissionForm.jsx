@@ -93,8 +93,8 @@ export const ProductSubmissionForm = () => {
                         <DeleteIcon />
                     </IconButton>
                 </Paper>
-                <Box textAlign="center" sx={{ my: 3 }}>
-                    <Button textAlign="center" variant="contained" sx={{ width: "10%" }}>
+                <Box align="center" sx={{ my: 3 }}>
+                    <Button align="center" variant="contained" sx={{ width: "10%" }}>
                         SUBMIT
                     </Button>
                 </Box>

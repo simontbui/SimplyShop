@@ -1,14 +1,29 @@
 import React from 'react';
-import UploadImgForm from './components/img-upload/UploadImgForm';
-import TopNav from './components/common/TopNav';
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { bootstrapAuth } from "./api/SimplyShopApi/Auth"; 
 
 function App() {
-  return (
-    <div className="App">
-      {/* <TopNav /> */}
-      <UploadImgForm />
-    </div>
-  );
+	const [user, setUser] = useState(null);
+	const [booting, setBooting] = useState(true);
+
+	useEffect(() => {
+		(async () => {
+			try {
+				const me = await bootstrapAuth();
+				setUser(me);
+			} catch {
+				setUser(null);
+			} finally {
+				setBooting(false);
+			}
+		})();
+	}, []);
+    return (
+        <div className="App">
+			<Outlet context={{ user, setUser }} />
+        </div>
+    );
 }
 
 export default App;

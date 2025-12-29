@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DFE00A27-D261-40D3-8CAC-E9DEAB5C8480}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DD5F0507-7573-4073-B7C2-A1B997A8EF02}"
+	ProjectSection(SolutionItems) = preProject
+		test.txt = test.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyShopAPI.Api", "SimplyShopAPI.Api\SimplyShopAPI.Api.csproj", "{B01A65BF-3DEA-4239-8A9C-5B5B23403FF9}"
 EndProject
