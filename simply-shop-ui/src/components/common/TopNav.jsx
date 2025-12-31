@@ -15,13 +15,16 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { ItemSearch } from './ItemSearch';
 
-const pages = ['Home', 'Upload your receipt', 'Product Search'];
+const pages = ['Home', 'Submit Purchases'];
 const settings = ['Login', 'Profile', 'Account', 'Dashboard', 'Logout'];
 
 const TopNav = () => {
 	const { user } = useOutletContext();
 	const navigate = useNavigate();
-	const navLinks = { 'Home': '/', 'Upload your receipt': '/item-input', 'Product Search': '/item-submission'}
+	const navLinks = { 
+		'Home': '/', 
+		// 'Upload your receipt': '/item-input', 
+		'Submit Purchases': '/item-submission'}
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 	const [anchorElUser, setAnchorElUser] = useState(null);
@@ -136,16 +139,31 @@ const TopNav = () => {
 			>
 				LOGO
 			</Typography>
-			<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+			<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
 				{pages.map((page) => (
-				<Button
-					key={page}
-					onClick={() => navigate(navLinks[page])}
-					sx={{ my: 2, color: 'white', display: 'block' }}
-				>
-					{page}
-				</Button>
+					<Button
+						key={page}
+						onClick={() => navigate(navLinks[page])}
+						sx={{
+							my: 2,
+							color: 'white',
+							fontWeight: 500,
+							textTransform: 'none',
+						}}
+					>
+						{page}
+					</Button>
 				))}
+			</Box>
+			<Box sx={{ flexGrow: 1 }} />
+			<Box
+				sx={{
+					display: { xs: 'none', md: 'flex' },
+					flexBasis: 400,
+					maxWidth: 500,
+					ml: 4,
+				}}
+			>
 				<ItemSearch />
 			</Box>
 

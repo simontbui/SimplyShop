@@ -1,5 +1,6 @@
 import { Search } from "@mui/icons-material"
-import { IconButton, TextField } from "@mui/material"
+import { IconButton, TextField, Box } from "@mui/material"
+//import Box from '@mui/material/Box';
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -23,26 +24,35 @@ export const ItemSearch = () => {
 
     return (
         <>
-            <TextField 
-                placeholder="Enter product name"
-                size="small"
-                variant="outlined"
-                type="search"
-                color="error"
-                sx={{ 
-                    "& .MuiInputBase-root": { backgroundColor: "white" },
-                    pt: 0, mt: 2, width: "25%"
-                }}
-                onChange={(e) => onSearchChange(e)}
-                onKeyDown={(e) => handleSearchEnterPress(e)}
-            />
-            <IconButton 
-                type="submit" 
-                aria-label="search"
-                onClick={handleSearchClick}
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    height: "100%",
+			    }}
             >
-                <Search style={{ fill: "black" }} sx={{ mt: 1 }} />
-            </IconButton>
+                <TextField 
+                    placeholder="Enter product name"
+                    size="small"
+                    variant="outlined"
+                    type="search"
+                    color="error"
+                    sx={{ 
+                        "& .MuiInputBase-root": { backgroundColor: "white" },
+                        width: "100%"
+                    }}
+                    onChange={(e) => onSearchChange(e)}
+                    onKeyDown={(e) => handleSearchEnterPress(e)}
+                />
+                <IconButton 
+                    type="submit" 
+                    aria-label="search"
+                    onClick={handleSearchClick}
+                >
+                    <Search style={{ fill: "black" }} sx={{ mt: 1 }} />
+                </IconButton>
+            </Box>
         </>
     )
 }
