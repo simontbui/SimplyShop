@@ -6,16 +6,12 @@ namespace SimplyShopAPI.Infrastructure.Entities
 {
     public class Brand
     {
-        public Brand()
-        {
-            Products = new HashSet<Product>();
-        }
-
         public int BrandId { get; set; }
         public string BrandName { get; set; } = null!;
-        public DateOnly DateCreated { get; set; }
-        public DateOnly? LastUpdated { get; set; }
+        public string BrandNameDisplay { get; set; } = null!;
+        public DateTime DateCreated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

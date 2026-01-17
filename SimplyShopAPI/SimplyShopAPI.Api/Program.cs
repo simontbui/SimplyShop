@@ -10,9 +10,10 @@ using SimplyShopAPI.Application.Helpers;
 using SimplyShopAPI.Application.Services;
 using SimplyShopAPI.Domain.Interfaces;
 using SimplyShopAPI.Infrastructure.Context;
-using SimplyShopAPI.Infrastructure.Entities;
+using SimplyShopAPI.Infrastructure.Entities.Identity;
 using SimplyShopAPI.Infrastructure.Implementation;
 using SimplyShopAPI.Infrastructure.Implementation.Auth;
+using SimplyShopAPI.Infrastructure.Migrations.Seed;
 using SimplyShopAPI.Infrastructure.Repositories;
 using System.Text;
 
@@ -32,11 +33,9 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(conn));
-
 // Identity
 builder.Services
-    .AddIdentityCore<ApplicationUser>(options =>
+    .AddIdentityCore<User>(options =>
     {
         options.User.RequireUniqueEmail = true;
 
@@ -76,7 +75,27 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddDbContext<SimplyShopContext>(options => options.UseNpgsql(conn));
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+    options.UseNpgsql(conn, npgsql =>
+    {
+        npgsql.MigrationsHistoryTable("__EFMigrationsHistory_Identity");
+    })
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging()
+    //last 2 options for early development; prod security risk
+);
+
+builder.Services.AddDbContext<SimplyShopContext>(options =>
+    options.UseNpgsql(conn, npgsql =>
+    {
+        npgsql.UseNetTopologySuite();
+        npgsql.MigrationsHistoryTable("__EFMigrationsHistory_SimplyShop");
+    })
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging()
+    //last 2 options for early development; prod security risk
+);
+
 builder.Services.AddScoped<IPricingService, PricingService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
@@ -124,5 +143,20 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if (args.Contains("--seed"))
+{
+    using var scope = app.Services.CreateScope();
+
+    var simplyShopDb = scope.ServiceProvider.GetRequiredService<SimplyShopContext>();
+    var identityDb = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+
+    //performs migrations if not already done
+    await simplyShopDb.Database.MigrateAsync();
+    await identityDb.Database.MigrateAsync();
+
+    await DbSeeder.SeedAsync(scope.ServiceProvider);
+    return;
+}
 
 app.Run();

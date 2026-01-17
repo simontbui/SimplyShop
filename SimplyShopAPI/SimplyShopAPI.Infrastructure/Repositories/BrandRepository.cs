@@ -18,10 +18,11 @@ namespace SimplyShopAPI.Infrastructure.Repositories
         {
             var brandSummaries = await (from t in _context.Transactions
                                         join p in _context.Products on t.ProductId equals p.ProductId
+                                        join i in _context.Items on p.ItemId equals i.ItemId
                                         join s in _context.Stores on t.StoreId equals s.StoreId
                                         join b in _context.Brands on p.BrandId equals b.BrandId
                                         where city == null || s.CityAddress.ToLower() == city.ToLower()
-                                        where productName == null || p.ProductName.ToLower() == productName.ToLower()
+                                        where productName == null || i.ItemName.ToLower() == productName.ToLower()
                                         group t by b.BrandName into g
                                         select new BrandSummary
                                         {

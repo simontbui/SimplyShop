@@ -16,11 +16,12 @@ namespace SimplyShopAPI.Infrastructure.Repositories
 
         public async Task<IEnumerable<StoreSummary>> GetStoreSummaries(string? city, string? productName, int rows = 10)
         {
-            var stores = await (from t in _context.Transactions
+            var summaries = await (from t in _context.Transactions
                                 join p in _context.Products on t.ProductId equals p.ProductId
+                                join i in _context.Items on p.ItemId equals i.ItemId
                                 join s in _context.Stores on t.StoreId equals s.StoreId
                                 where city == null || s.CityAddress.ToLower() == city.ToLower()
-                                where productName == null || p.ProductName.ToLower() == productName.ToLower()
+                                where productName == null || i.ItemName.ToLower() == productName.ToLower()
                                 group t by new
                                 {
                                     s.StoreId,
@@ -44,7 +45,7 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                             .Take(rows)
                             .ToListAsync();
 
-            return stores!;
+            return summaries!;
         }
     }
 }

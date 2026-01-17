@@ -1,15 +1,20 @@
 services:
   pgdatabase:
-    image: postgres:13
+    image: postgis/postgis:13-3.5-alpine
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=SimplyShop
     volumes:
-      - "./Database/scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql"
+      #- "./Database/scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql"
       - "pgdata:/var/lib/postgresql/data:rw"
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d SimplyShop"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -51,7 +56,32 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      - pgdatabase
+      #- pgdatabase
+      migrator:
+        condition: service_completed_successfully
+
+  migrator:
+    build:
+      context: ./SimplyShopAPI
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ./SimplyShopAPI:/app
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      pgdatabase:
+        condition: service_healthy
+    # Run migrations for BOTH contexts, then seed (see section 2)
+    command: >
+      bash -lc "
+        set -e
+        dotnet tool restore
+        dotnet tool run dotnet-ef database update --project SimplyShopAPI.Infrastructure --startup-project SimplyShopAPI.Api --context SimplyShopContext
+        dotnet tool run dotnet-ef database update --project SimplyShopAPI.Infrastructure --startup-project SimplyShopAPI.Api --context AppIdentityDbContext
+        dotnet run --project SimplyShopAPI.Api --seed
+      "
+    restart: "no"
   
 volumes:
   pgdata:

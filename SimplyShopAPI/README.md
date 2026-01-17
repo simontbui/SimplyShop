@@ -1,4 +1,44 @@
-## Migrations
+## Creating Initial Migrations
+
+Main App:
+```
+dotnet ef migrations add AppInit \
+    --context SimplyShopContext \
+    --project SimplyShopAPI.Infrastructure \
+    --startup-project SimplyShopAPI.Api \
+    --output-dir Migrations/App
+```
+
+Identity:
+```
+dotnet ef migrations add IdentityInit \
+    --context AppIdentityDbContext \
+    --project SimplyShopAPI.Infrastructure \
+    --startup-project SimplyShopAPI.Api \
+    --output-dir Migrations/Identity
+```
+
+## Validating Migration SQL Translation
+
+Main App:
+```
+dotnet ef migrations script \
+    --context SimplyShopContext \
+    --project SimplyShopAPI.Infrastructure \
+    --startup-project SimplyShopAPI.Api \
+    --output app_schemas.sql
+```
+
+Identity:
+```
+dotnet ef migrations script \
+    --context AppIdentityDbContext \
+    --project SimplyShopAPI.Infrastructure \
+    --startup-project SimplyShopAPI.Api \
+    --output identity_schemas.sql
+```
+
+## Applying Migrations
 
 Updating the DB via migration will require running the EF tool commands through docker. 
 

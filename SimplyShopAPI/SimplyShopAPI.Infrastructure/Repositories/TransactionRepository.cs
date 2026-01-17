@@ -22,12 +22,12 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                 from t in _context.Transactions
                 join s in _context.Stores on t.StoreId equals s.StoreId
                 let groupKey = groupByMonth
-                                ? new DateOnly(t.TransactionDate.Year, t.TransactionDate.Month, 1)
+                                ? new DateTime(t.TransactionDate.Year, t.TransactionDate.Month, 1)
                                 : t.TransactionDate
                 group t by groupKey into g
                 select new AvgSpentPerVisit
                 {
-                    TransactionDate = g.Key,
+                    TransactionDate = DateOnly.FromDateTime(g.Key),
                     AvgSpent = g.Average(x => x.Cost)
                 })
                 .OrderBy(x => x.TransactionDate).ToListAsync();

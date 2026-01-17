@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { ItemSearch } from './ItemSearch';
 
-const pages = ['Home', 'Submit Purchases'];
+const pages = ['Home', 'Submit Purchases', 'Add New Product', 'Add New Store'];
 const settings = ['Login', 'Profile', 'Account', 'Dashboard', 'Logout'];
 
 const TopNav = () => {

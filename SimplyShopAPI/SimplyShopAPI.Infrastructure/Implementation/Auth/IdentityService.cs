@@ -2,7 +2,7 @@
 using SimplyShopAPI.Application.Auth.DTOs;
 using SimplyShopAPI.Application.Auth.Interfaces;
 using SimplyShopAPI.Application.DTOs.Auth;
-using SimplyShopAPI.Infrastructure.Entities;
+using SimplyShopAPI.Infrastructure.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +13,10 @@ namespace SimplyShopAPI.Infrastructure.Implementation.Auth
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public IdentityService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -30,13 +30,10 @@ namespace SimplyShopAPI.Infrastructure.Implementation.Auth
                 return IdentityResult<object>.Fail("Email is already in use");
             }
 
-            var user = new ApplicationUser
+            var user = new User
             {
                 UserName = request.Email,
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                ZipCode = request.ZipCode
+                Email = request.Email
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -71,10 +68,7 @@ namespace SimplyShopAPI.Infrastructure.Implementation.Auth
             {
                 Id = user.Id,
                 Email = user.Email ?? "",
-                UserName = user.UserName ?? "",
-                FirstName = user.FirstName ?? "",
-                LastName = user.LastName ?? "",
-                ZipCode = user.ZipCode ?? ""
+                UserName = user.UserName ?? ""
             });
         }
 
@@ -91,10 +85,7 @@ namespace SimplyShopAPI.Infrastructure.Implementation.Auth
             {
                 Id = user.Id,
                 Email = user.Email ?? "",
-                UserName = user.UserName ?? "",
-                FirstName = user.FirstName ?? "",
-                LastName = user.LastName ?? "",
-                ZipCode = user.ZipCode ?? ""
+                UserName = user.UserName ?? ""
             });
         }
     }
