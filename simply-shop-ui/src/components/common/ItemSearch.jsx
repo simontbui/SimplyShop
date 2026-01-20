@@ -13,12 +13,12 @@ export const ItemSearch = () => {
 
     const handleSearchEnterPress = (e) => {
         if (e.key === "Enter") {
-            navigate("/search-results")
+            navigate(`/search-results/${encodeURIComponent(searchItem)}`);
         }
     }
 
     const handleSearchClick = () => {
-        navigate("/search-results")
+        navigate(`/search-results/${encodeURIComponent(searchItem)}`);
     }
 
     return (

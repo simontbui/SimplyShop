@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
             { index: true, element: <HomePage /> },
             { path: "item-input", element: <UploadImgForm /> },
             { path: "item-submission", element: <ProductSubmissionForm /> },
-            { path: "search-results", element: <SearchResultPage /> },
+            { path: "search-results/:item", element: <SearchResultPage /> },
             { path: "login", element: <Login /> },
             { path: "register", element: <Register /> },
         ],

@@ -112,6 +112,7 @@ namespace SimplyShopAPI.Infrastructure.Migrations.Seed
                 new Item { ItemName = "carrots", ItemNameDisplay = "Carrots" },
                 new Item { ItemName = "roma tomatoes", ItemNameDisplay = "Roma Tomatoes" },
                 new Item { ItemName = "black beans", ItemNameDisplay = "Black Beans" },
+                new Item { ItemName = "salmon", ItemNameDisplay = "Salmon" },
             };
 
             ctx.Items.AddRange(items);
@@ -141,6 +142,7 @@ namespace SimplyShopAPI.Infrastructure.Migrations.Seed
 
             var dole = brandIds["dole"];
             var staterBros = brandIds["stater bros."];
+            var aldi = brandIds["aldi"];
             var jennieO = brandIds["jennie-o"];
 
             var products = new List<Product>
@@ -153,7 +155,8 @@ namespace SimplyShopAPI.Infrastructure.Migrations.Seed
                 new Product { ItemId = itemIds["garlic"], UnitTypeId = bulb },
                 new Product { ItemId = itemIds["carrots"], UnitTypeId = lbs },
                 new Product { ItemId = itemIds["black beans"], BrandId = staterBros },
-                new Product { ItemId = itemIds["yellow onions"], UnitTypeId = lbs }
+                new Product { ItemId = itemIds["yellow onions"], UnitTypeId = lbs },
+                new Product { ItemId = itemIds["salmon"], UnitTypeId = lbs, BrandId = aldi }
             };
 
             ctx.Products.AddRange(products);
@@ -343,6 +346,14 @@ namespace SimplyShopAPI.Infrastructure.Migrations.Seed
                 )
                 .SingleAsync();
 
+            var salmonProdId = await (
+                from p in ctx.Products
+                join i in ctx.Items on p.ItemId equals i.ItemId
+                where i.ItemName == "salmon"
+                select p.ProductId
+                )
+                .SingleAsync();
+
             var staterBrosStoreId = await ctx.Stores
                 .Where(s => s.StoreName == "stater bros." && s.StreetAddress == "8888 Chapman Ave")
                 .Select(s => s.StoreId)
@@ -350,6 +361,11 @@ namespace SimplyShopAPI.Infrastructure.Migrations.Seed
 
             var hmartStoreId = await ctx.Stores
                 .Where(s => s.StoreName == "hmart" && s.StreetAddress == "8911 Garden Grove Blvd")
+                .Select(s => s.StoreId)
+                .SingleAsync();
+
+            var aldiStoreId = await ctx.Stores
+                .Where(s => s.StoreName == "aldi" && s.StreetAddress == "9901 Chapman Ave")
                 .Select(s => s.StoreId)
                 .SingleAsync();
 
@@ -403,6 +419,22 @@ namespace SimplyShopAPI.Infrastructure.Migrations.Seed
                     Cost = 0.26M,
                     StoreId = hmartStoreId,
                     ProductId = yellowOnionProdId
+                },
+                new Transaction
+                {
+                    Quantity = 2.36M,
+                    Cost = 20.51M,
+                    StoreId = aldiStoreId,
+                    ProductId = salmonProdId,
+                    TransactionDate = new DateTime(2026, 1, 18, 0, 0, 0, DateTimeKind.Utc)
+                },
+                new Transaction
+                {
+                    Quantity = 2.72M,
+                    Cost = 1.25M,
+                    StoreId = aldiStoreId,
+                    ProductId = bananaProdId,
+                    TransactionDate = new DateTime(2026, 1, 18, 0, 0, 0, DateTimeKind.Utc)
                 },
             };
 

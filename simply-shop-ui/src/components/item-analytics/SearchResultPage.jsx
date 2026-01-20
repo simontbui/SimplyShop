@@ -1,10 +1,12 @@
 import { Container, Grid, Paper } from "@mui/material"
 import TopNav from "../common/TopNav"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { TopItemsTable } from "./Cards/TopItemsTable"
 import { MostPopularStore } from "./Cards/MostPopularStore"
 import { AvgSpentChart } from "./Cards/AvgSpentChart"
 import { CheapestStoresTable } from "./Cards/CheapestStoresTable"
+import { useParams } from "react-router-dom"
+import { getDailyPricing } from "../../api/SimplyShopApi/Pricing"
 
 export const SearchResultPage = () => {
     const [user, setUser] = useState({})
@@ -14,7 +16,22 @@ export const SearchResultPage = () => {
         city: "Garden Grove", 
         state: "CA", 
         zip: "12345"
-    })
+    });
+
+    const [itemDailyStats, setItemDailyStats] = useState([]);
+
+    const { item } = useParams();
+
+    useEffect(() => {
+        if (!item) {
+            return;
+        }
+
+        (async () => {
+            const data = await getDailyPricing(item);
+            setItemDailyStats(data);
+        })();
+    }, [item])
 
     return (
         <>
@@ -31,7 +48,7 @@ export const SearchResultPage = () => {
                             height: 310,
                             }}
                         >
-                        <AvgSpentChart chartType="searchResult" />
+                        <AvgSpentChart chartType="searchResult" data={itemDailyStats} />
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={3}>

@@ -21,5 +21,13 @@ namespace SimplyShopAPI.Api.Controllers
             var data = await _pricingService.GetAvgSpentPerVisit();
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("daily-pricing")]
+        public async Task<IActionResult> GetDailyItemPricing(string itemName, int lookBackDays = 30)
+        {
+            var data = await _pricingService.GetDailyItemPricingStatsAsync(itemName, lookBackDays);
+            return Ok(data);
+        }
     }
 }

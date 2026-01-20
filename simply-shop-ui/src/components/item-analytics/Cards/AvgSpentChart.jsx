@@ -8,25 +8,21 @@ const chartTitles = {
     searchResult: "Average Cost Within a 25mi Radius (Last 30D)"
 }
 
-export const AvgSpentChart = ({ chartType }) => {
-    // sample data
-    // const [avgVisitCosts, setAvgVisitCosts] = useState([
-    //     { transactionDate: new Date(2024, 6, 1), avgSpent: 535.12 },
-    //     { transactionDate: new Date(2024, 6, 8), avgSpent: 821.12 },
-    //     { transactionDate: new Date(2024, 6, 15), avgSpent: 1332.12 },
-    //     { transactionDate: new Date(2024, 6, 22), avgSpent: 3121.12 },
-    //     { transactionDate: new Date(2024, 6, 29), avgSpent: 432.12 },
-    //     { transactionDate: new Date(2024, 7, 6), avgSpent: 1173.12 },
-    //     { transactionDate: new Date(2024, 7, 13), avgSpent: 63.12 },
-    //     { transactionDate: new Date(2024, 7, 20), avgSpent: 126.12 },
-    //     { transactionDate: new Date(2024, 7, 27), avgSpent: 236.12 },
-    //     { transactionDate: new Date(2024, 8, 3), avgSpent: 312.72 },
-    // ])
-
+export const AvgSpentChart = ({ chartType, data }) => {
     const [avgVisitCosts, setAvgVisitCosts] = useState([
     ])
 
     useEffect(() => {
+        if (chartType === "searchResult") {
+            const avgVisitData = data?.map(day => ({
+                transactionDate: new Date(day.transactionDay),
+                avgSpent: Number(day.avgUnitCost).toFixed(2)
+            }));
+
+            setAvgVisitCosts(avgVisitData);
+            return;
+        }
+
         getAvgSpentPerVisit()
             .then(data => data?.map(day => ({
                 transactionDate: new Date(day.transactionDate),
@@ -37,7 +33,7 @@ export const AvgSpentChart = ({ chartType }) => {
                     setAvgVisitCosts(data)
                 }
             })
-    }, [])
+    }, [chartType, data])
     
     return (
         <div>

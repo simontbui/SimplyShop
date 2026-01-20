@@ -16,3 +16,13 @@ export const getAvgSpentPerVisit = async () => {
         console.log(e.message);
     }
 };
+
+export const getDailyPricing = async (itemName) => {
+    try {
+        const data = await pricingApi.get(`daily-pricing?itemName=${itemName}`);
+        return responseBody(data);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+};

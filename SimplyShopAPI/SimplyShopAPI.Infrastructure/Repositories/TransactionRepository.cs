@@ -1,8 +1,10 @@
-﻿using SimplyShopAPI.Infrastructure.Context;
-using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SimplyShopAPI.Domain.Interfaces;
 using SimplyShopAPI.Domain.Models;
+using SimplyShopAPI.Domain.Transactions;
+using SimplyShopAPI.Infrastructure.Context;
+using System;
+using System.Threading;
 
 namespace SimplyShopAPI.Infrastructure.Repositories
 {
@@ -33,6 +35,28 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                 .OrderBy(x => x.TransactionDate).ToListAsync();
 
             return avgSpentData;
+        }
+
+        public async Task<IReadOnlyList<DailyItemPricingStats>> GetDailyItemPricingStatsAsync(string itemName, int lookBackDays = 30)
+        {
+            var startDate = DateTime.UtcNow.Date.AddDays(-1 * Math.Clamp(lookBackDays, 1, 365));
+            var normalizedItem = itemName.Trim().ToLowerInvariant();
+
+            var query =
+                from t in _context.Transactions.AsNoTracking()
+                join p in _context.Products on t.ProductId equals p.ProductId
+                join i in _context.Items on p.ItemId equals i.ItemId
+                where i.ItemName == normalizedItem && t.TransactionDate >= startDate
+                group t by DateOnly.FromDateTime(t.TransactionDate) into g
+                orderby g.Key
+                select new DailyItemPricingStats
+                {
+                    TransactionDay = g.Key,
+                    AvgUnitCost = Math.Round(g.Average(t => t.Cost / t.Quantity), 2),
+                    TransactionCount = g.Count()
+                };
+
+            return await query.ToListAsync();
         }
     }
 }
