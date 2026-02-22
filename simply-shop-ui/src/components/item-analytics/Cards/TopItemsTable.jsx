@@ -20,9 +20,12 @@ export const TopItemsTable = () => {
             <Typography variant="h6" color="primary" gutterBottom>Most Purchased Items (25 mi radius)</Typography>
             <Table size="small">
                 <TableHead>
-                    <TableCell>Item Name</TableCell>
-                    <TableCell>Cost Per Unit ($)</TableCell>
+                    <TableRow>
+                        <TableCell>Item Name</TableCell>
+                        <TableCell>Cost Per Unit ($)</TableCell>
+                    </TableRow>
                 </TableHead>
+
                 <TableBody>
                     {top10Items.map((item) => (
                         <TableRow key={item.id}>

@@ -29,7 +29,10 @@ export const SearchResultPage = () => {
 
         (async () => {
             const data = await getDailyPricing(item);
-            setItemDailyStats(data);
+
+            if (data) {
+                setItemDailyStats(data);
+            }
         })();
     }, [item])
 

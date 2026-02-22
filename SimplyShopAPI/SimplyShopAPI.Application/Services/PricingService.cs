@@ -25,14 +25,24 @@ namespace SimplyShopAPI.Application.Services
             return data;
         }
 
-        public Task<IReadOnlyList<DailyItemPricingStats>> GetDailyItemPricingStatsAsync(string itemName, int lookBackDays = 30)
+        public Task<IReadOnlyList<ItemPriceHistory>> GetHistoricalItemPriceAsync(string itemName, int lookBackDays = 30)
         {
             if (string.IsNullOrWhiteSpace(itemName))
-                return Task.FromResult<IReadOnlyList<DailyItemPricingStats>>([]);
+                return Task.FromResult<IReadOnlyList<ItemPriceHistory>>([]);
 
             lookBackDays = Math.Clamp(lookBackDays, 1, 365);
 
-            return _uow.TransactionRepository.GetDailyItemPricingStatsAsync(itemName.Trim(), lookBackDays);
+            return _uow.TransactionRepository.GetHistoricalItemPriceAsync(itemName.Trim(), lookBackDays);
+        }
+
+        public Task<IEnumerable<StorePriceHistory>> GetStoreCostsAsync(string itemName, int lookBackDays = 30)
+        {
+            if (string.IsNullOrWhiteSpace(itemName))
+                return Task.FromResult<IEnumerable<StorePriceHistory>>([]);
+
+            lookBackDays = Math.Clamp(lookBackDays, 1, 365);
+
+            return _uow.TransactionRepository.GetStoreCosts(itemName.Trim(), lookBackDays);
         }
     }
 }

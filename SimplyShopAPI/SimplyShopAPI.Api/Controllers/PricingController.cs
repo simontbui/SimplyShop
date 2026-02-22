@@ -23,10 +23,18 @@ namespace SimplyShopAPI.Api.Controllers
         }
 
         [HttpGet]
-        [Route("daily-pricing")]
-        public async Task<IActionResult> GetDailyItemPricing(string itemName, int lookBackDays = 30)
+        [Route("historical")]
+        public async Task<IActionResult> GetHistoricalItemPrice(string itemName, int lookBackDays = 30)
         {
-            var data = await _pricingService.GetDailyItemPricingStatsAsync(itemName, lookBackDays);
+            var data = await _pricingService.GetHistoricalItemPriceAsync(itemName, lookBackDays);
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("stores/cheapest")]
+        public async Task<IActionResult> GetStoreCosts(string itemName, int lookBackDays = 30)
+        {
+            var data = await _pricingService.GetStoreCostsAsync(itemName, lookBackDays);
             return Ok(data);
         }
     }

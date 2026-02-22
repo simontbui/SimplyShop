@@ -62,7 +62,7 @@ export const AvgSpentChart = ({ chartType, data }) => {
                         id: "$",
                         label: "Average Amount ($)",
                         data: avgVisitCosts?.map((data) => data.avgSpent),
-                        scaleType: "decimal",
+                        scaleType: "linear",
                         labelStyle: {
                             fill: "text.primary"
                         }                    

@@ -19,7 +19,17 @@ export const getAvgSpentPerVisit = async () => {
 
 export const getDailyPricing = async (itemName) => {
     try {
-        const data = await pricingApi.get(`daily-pricing?itemName=${itemName}`);
+        const data = await pricingApi.get(`historical?itemName=${itemName}&lookBackDays=365`);
+        return responseBody(data);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+};
+
+export const getStoreCosts = async (itemName) => {
+    try {
+        const data = await pricingApi.get(`stores/cheapest?itemName=${itemName}&lookBackDays=365`);
         return responseBody(data);
     }
     catch (e) {

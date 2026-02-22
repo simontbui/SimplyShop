@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplyShopAPI.Domain.Transactions
 {
-    public class DailyItemPricingStats
+    public class ItemPriceHistory
     {
         public DateOnly TransactionDay { get; init; }
         public decimal AvgUnitCost { get; init; }
