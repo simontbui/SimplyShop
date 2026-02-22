@@ -70,7 +70,7 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                 join s in _context.Stores on t.StoreId equals s.StoreId
                 where i.ItemName == normalizedItem && t.TransactionDate >= startDate
                 group t by new { s.StoreNameDisplay, s.StreetAddress, s.CityAddress, s.StateAddress, s.ZipAddress } into g
-                orderby g.Average(x => x.Cost)
+                orderby g.Average(x => x.Cost / x.Quantity)
                 select new StorePriceHistory
                 {
                     StoreName = g.Key.StoreNameDisplay,
@@ -78,7 +78,7 @@ namespace SimplyShopAPI.Infrastructure.Repositories
                     CityAddress = g.Key.CityAddress,
                     StateAddress = g.Key.StateAddress,
                     ZipAddress = g.Key.ZipAddress,
-                    AvgUnitCost = Math.Round(g.Average(x => x.Cost), 2)
+                    AvgUnitCost = Math.Round(g.Average(x => x.Cost / x.Quantity), 2)
                 };
 
             return await query.Take(10).ToListAsync();
